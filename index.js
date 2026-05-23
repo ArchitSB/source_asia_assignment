@@ -9,7 +9,9 @@ const PORT = 3000;
 
 // Production note: helmet and cors middleware would be added here
 // e.g. app.use(helmet()); app.use(cors({ origin: process.env.ALLOWED_ORIGINS }));
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 
 app.use(express.json());
 
@@ -27,8 +29,10 @@ app.use((req, res) => {
 
 app.use(globalErrorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 module.exports = app;

@@ -1,6 +1,4 @@
-// rateLimiterStore grows as users make requests.
 // A setInterval below cleans up stale entries every 5 minutes
-// to prevent unbounded memory growth in long-running instances.
 const rateLimiterStore = new Map();
 
 function getOrCreateUser(userId) {
@@ -21,7 +19,6 @@ function resetWindowIfExpired(entry) {
   if (Date.now() - entry.windowStart >= 60000) {
     entry.windowStart = Date.now();
     entry.accepted = 0;
-    // rejected is cumulative — intentionally not reset
   }
 }
 
@@ -44,11 +41,8 @@ function getAllStats() {
   return { users, total_accepted_in_window, total_rejected_cumulative };
 }
 
-// Cleanup stale entries every 5 minutes
-// An entry is stale if its window expired more than 5 minutes ago
-// and it has no rejected count worth keeping
-const CLEANUP_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
-const STALE_THRESHOLD_MS = 5 * 60 * 1000;  // 5 minutes past window expiry
+const CLEANUP_INTERVAL_MS = 5 * 60 * 1000;
+const STALE_THRESHOLD_MS = 5 * 60 * 1000;
 
 setInterval(() => {
   const now = Date.now();
@@ -57,7 +51,6 @@ setInterval(() => {
   for (const [userId, entry] of rateLimiterStore.entries()) {
     const windowAge = now - entry.windowStart;
     // Entry is stale if window expired more than STALE_THRESHOLD ago
-    // AND there are no cumulative rejections worth preserving
     if (windowAge > 60000 + STALE_THRESHOLD_MS && entry.rejected === 0) {
       rateLimiterStore.delete(userId);
       cleaned++;
