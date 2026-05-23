@@ -4,7 +4,7 @@
 
 A production-quality HTTP service built with **Node.js** and **Express.js**, using **in-memory storage (Maps)** — no database required. The service is split into two independent parts:
 
-- **Part 1 — Rate Limiter API**: Accepts or rejects requests per user using a fixed 1-minute sliding window, with full stats tracking.
+- **Part 1 — Rate Limiter API**: Accepts or rejects requests per user using a fixed 1-minute fixed window, with full stats tracking.
 - **Part 2 — Product Catalog API**: A CRUD-style catalog for products with separate media management, pagination, and URL validation.
 
 No external packages are used beyond `express` and `uuid`.
@@ -76,6 +76,8 @@ npm start      # production (plain node)
 ```
 
 The server listens on **port 3000**.
+
+- **API Docs (Swagger UI):** http://localhost:3000/api-docs
 
 ---
 
@@ -438,5 +440,6 @@ All requirements from the assignment brief are fully implemented:
 - ✅ Morgan request logging
 - ✅ Global error handler with clean 500 responses
 - ✅ Stale entry cleanup to prevent unbounded memory growth
+- ✅ Swagger/OpenAPI interactive documentation at `/api-docs`
 
 No requirements are incomplete or missing.

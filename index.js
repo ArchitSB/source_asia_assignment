@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./src/docs/swagger');
 const part1Router = require('./src/routes/part1.routes');
 const part2Router = require('./src/routes/part2.routes');
 const { validateJson, globalErrorHandler } = require('./src/middleware/validate');
@@ -13,6 +15,7 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
 
 app.use('/', part1Router);
