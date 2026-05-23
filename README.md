@@ -418,7 +418,7 @@ The script sends requests in batches of 50 concurrent `Promise.all` calls and re
 
 ## 11. Note on AI Usage
 
-Claude AI was used to assist with boilerplate structure, README drafting, and code review suggestions. All logic, design decisions, and architecture were authored and reviewed by the developer.
+Claude AI was used to assist README drafting, and code review suggestions. All logic, design decisions, and architecture were done by the developer.
 
 ---
 
